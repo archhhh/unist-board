@@ -1,34 +1,31 @@
 import React, { Component } from 'react';
-
+import { Link } from 'react-router-dom';
 
 class Header extends Component{
     constructor(props){
         super(props);
         this.state = {
-            isNavClosed: false
+            isNavClosed: false,
         };
     }
-
     toggleNav = () => {
         this.setState({
             isNavClosed: !this.state.isNavClosed,
         });
     }
-
-
     render(){
         return (
             <header>
                 <div className='header-wrapper'>
                     <div className='left-header'>
-                        <a className='logo' href='#'>
+                        <Link className='logo' to='/'>
                             <img src='../../assets/logo.png'></img>
-                        </a>
+                        </Link>
                         <nav>
-                            <p className={this.state.isNavClosed ? 'current-board open' : 'current-board closed'} onClick={this.toggleNav}><span className='board-icon'>%icon%</span><span className='board-text'>/all/</span></p>
-                            <ul className={this.state.isNavClosed ? 'boards open' : 'boards closed'}>
-                                <li className='board all' value='all'><a href='#'><span className='board-icon'>%icon%</span><span className='board-text'>/all/</span></a></li>
-                                <li className='board' value='all'><a href='#'><span className='board-icon'>%icon%</span><span className='board-text'>/dormitory/</span></a></li>
+                            <p className={this.state.isNavClosed ? 'current-board open' : 'current-board closed'} onClick={this.toggleNav}><span className='board-icon'>{this.props.currentBoard.icon}</span><span className='board-name'>/{this.props.currentBoard.name}/</span></p>
+                            <ul className={this.state.isNavClosed ? 'boards open' : 'boards closed'} onClick={this.toggleNav}> 
+                                <li className='board all'><Link to='/all'><span className='board-icon'>🌌</span><span className='board-name'>/all/</span></Link></li>
+                                {this.props.boards.map( (board) => (<li className='board'><Link to={board.id}><span className='board-icon'>{board.icon}</span><span className='board-name'>{board.name}</span></Link></li>))}
                                 <li className='delimiter'></li>
                                 <li className='footer'>
                                     <div className='devs'>
@@ -38,9 +35,9 @@ class Header extends Component{
                                         <a href='https://t.me/comm_unist'>https://t.me/comm_unist</a>
                                     </div>
                                     <div className='info'>
-                                        <a className='logo' href='#'>
+                                        <Link className='logo' to='/'>
                                             <img src='../../assets/logo.png'></img>
-                                        </a>
+                                        </Link>
                                         <ul>
                                             <li><a href='#'>About Us</a></li>
                                             <li><a href='#'>Contact</a></li>

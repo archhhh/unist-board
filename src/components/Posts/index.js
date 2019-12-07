@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Footer from '../Footer';
+import Header from '../Header';
 import Filter from './Filter';
 import Post from './Post';
 
@@ -15,7 +16,82 @@ class Posts extends Component{
             filter: {
                 isOpen: false,
                 selectedOption: 'all-time',  
+            },
+            currentBoard: {
+                name: 'all',
+                description: '',
+                icon: '',
+            },
+            posts: [],
+            isLoading: true,
+        }
+    }
+    
+    updateCurrentBoard = () => {
+        let currentBoard = {
+            name: 'all',
+            description: '',
+            icon: '🌌',
+        };
+        this.props.boards.forEach((board) => {
+            if(board.id == this.props.match.params.board)
+                currentBoard = board;
+        });
+        this.setState({currentBoard: currentBoard});
+    }
+
+    updatePosts = () => {
+        this.setState({isLoading: true, posts: []});
+        let posts = [];
+        let postsRef;
+        if(this.props.match.params.board != undefined && this.props.match.params.board != 'all')
+            postsRef = db.collection('posts').where('board', '==', this.props.match.params.board).orderBy('timestamp', 'desc');
+        else
+            postsRef = db.collection('posts').orderBy('timestamp', 'desc');
+        postsRef.get()
+        .then(
+            (querySnapshot) => {
+                querySnapshot.forEach(
+                    (post) => {
+                        posts.push(
+                            {
+                                id: post.id,
+                                views: 0,
+                                meta: {
+                                    board: post.data().board,
+                                    date: post.data().timestamp
+                                },
+                                tags: post.data().tags,
+                                title: post.data().title,
+                                attachments: post.data().attachments,
+                                short_desc: post.data().short_desc,
+                                comments: 0
+                            }
+                        );
+                    }
+                );
+                this.setState({
+                    posts: posts,
+                    isLoading: false
+                });
             }
+        )
+        .catch( 
+            (error) => {
+                console.log(error);
+            }
+        );
+    }
+
+    componentDidMount = () => {
+        this.updateCurrentBoard();
+        this.updatePosts();
+    };
+
+    componentDidUpdate = (prevProps) => {
+        if(prevProps.match.params.board != this.props.match.params.board || prevProps.boards != this.props.boards){
+            this.updateCurrentBoard();
+            this.updatePosts();
         }
     }
 
@@ -32,15 +108,19 @@ class Posts extends Component{
     render(){
         return (
             <div className='posts'>
-                <div className='banner'>
-                    <div className='content-wrapper'>
-                        <h1 className='board-name'>%icon% /dormitory/</h1>
-                        <h2 className='board-desc'>All things about dormitory.</h2>
+                <Header boards={this.props.boards} currentBoard={this.state.currentBoard}></Header>
+                { this.props.match.params.board != undefined && this.props.match.params.board != 'all' 
+                && (
+                    <div className='banner'>
+                        <div className='content-wrapper'>
+                            <h1 className='board-name'>{this.state.currentBoard.icon} /{this.state.currentBoard.name}/</h1>
+                            <h2 className='board-desc'>{this.state.currentBoard.description}</h2>
+                        </div>
                     </div>
-                </div>
+                )}
                 <div className='main-content-wrapper'>
                     <div className='left'>
-                        <input type='text' className='search' placeholder='Search /dormitory/'></input>
+                        <input type='text' className='search' placeholder={`Search /${this.state.currentBoard.name}/`}></input>
                         <div className='filters'>
                             <Filter 
                                 name='Sort' 
@@ -61,39 +141,11 @@ class Posts extends Component{
                             </Filter>
                         </div>
                         <div className='posts-list'>
-                            <Post
-                                post={
-                                    {
-                                        views: 526,
-                                        meta: {
-                                            board: 'dormitory',
-                                            date: '3 hours ago'
-                                        },
-                                        tags: ['application', 'winter semester'],
-                                        title: 'Application for 2019 Winter Semester Student Residence',
-                                        attachments: [{url: '#', name: 'info'}],
-                                        short_desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In eget tincidunt felis. Nullam ornare sem sed dictum mattis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nulla tristique mi purus, in cursus ligula rhoncus tempus. Duis eget tempus dui. Etiam sollicitudin ex dictum semper iaculis.',
-                                        comments: 504
-                                    }
-                                }
-                            ></Post>
-                            <Post
-                                post={
-                                    {
-                                        views: 520,
-                                        meta: {
-                                            board: 'ece-school',
-                                            date: '4 hours ago'
-                                        },
-                                        tags: ['research', 'lab'],
-                                        title: 'ECE Lab Overview 9/23',
-                                        attachments: [],
-                                        short_desc: 'Greetings! This is ECE student council, ULRIM. We have prepared \'Lab Overview\' for undergrads.🐎 You can attain valuable information regarding research projects that you may be interested in.',
-                                        comments: 502
-                                    }
-                                }
-                            ></Post>
-                            <div className='delimiter'></div>
+                            {this.state.posts.map( (post) => 
+                                (<Post post={post}></Post>)
+                            )}
+                            {this.state.isLoading && <div class="lds-ring"><div></div><div></div><div></div><div></div></div>}  
+                            { !this.state.isLoading && <div className='delimiter'></div>}
                         </div>
                     </div>
                 <Footer></Footer>

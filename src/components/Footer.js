@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 
 const Footer = () => {
@@ -12,9 +13,9 @@ const Footer = () => {
             </div>    
             <div className='info'>
                 <div className='sitemap'>
-                    <a className='logo' href='#'>
+                    <Link className='logo' to='/'>
                         <img src='../../assets/logo.png'></img>
-                    </a>
+                    </Link>
                     <ul>
                         <li><a href='#'>About Us</a></li>
                         <li><a href='#'>Contact</a></li>
