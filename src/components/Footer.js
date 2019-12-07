@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
+import Logo from '../../assets/logo.png';
 
 const Footer = () => {
     return (
@@ -14,7 +14,7 @@ const Footer = () => {
             <div className='info'>
                 <div className='sitemap'>
                     <Link className='logo' to='/'>
-                        <img src='../../assets/logo.png'></img>
+                        <img src={Logo}></img>
                     </Link>
                     <ul>
                         <li><a href='#'>About Us</a></li>

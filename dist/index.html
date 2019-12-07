@@ -9,5 +9,30 @@
 </head>
 <body>
     <div id="app"></div>
-<script type="text/javascript" src="bundle.js"></script></body>
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-app.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+        https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-firestore.js"></script>
+
+    <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyABc9iyIXSyoCK9nEUpod1TudpS1_JAZoM",
+            authDomain: "unist-board.firebaseapp.com",
+            databaseURL: "https://unist-board.firebaseio.com",
+            projectId: "unist-board",
+            storageBucket: "unist-board.appspot.com",
+            messagingSenderId: "922175433194",
+            appId: "1:922175433194:web:116bb2bb66f7a33cae2a93",
+            measurementId: "G-R98Q4CZ2GR"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        firebase.analytics();
+        const db = firebase.firestore();
+    </script>
+<script type="text/javascript" src="/bundle.js"></script></body>
 </html>

@@ -1,12 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Eyes from '../../../assets/eye1_3x.png';
 
 
 const Post = (props) => {
     return (
         <div className='post'>
             <div className='views-counter'>
-                <img src='../../assets/eye1_3x.png'></img>
+                <img src={Eyes}></img>
                 {/*<p>{props.post.views}</p>*/}
             </div>
             <div className='content'>
@@ -27,10 +28,7 @@ const Post = (props) => {
                     { props.post.attachments.length > 0 && <span className='clip'>📎 </span>}
                     {props.post.attachments.map((attachment) => (<a href={attachment.url}>{attachment.name}</a>))}
                 </div>
-                <p className='short-desc'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In eget tincidunt felis. 
-Nullam ornare sem sed dictum mattis. Orci varius natoque penatibus et magnis dis 
-parturient montes, nascetur ridiculus mus. Nulla tristique mi purus, in cursus ligula
-rhoncus tempus. Duis eget tempus dui. Etiam sollicitudin ex dictum semper iaculis.</p>
+                <p className='short-desc'>{props.post.short_desc}</p>
                 {/*<a href='#' className='comments'>comments 504</a>*/}
             </div>
         </div>

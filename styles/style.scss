@@ -617,3 +617,233 @@ footer{
         padding:20px 0;
     }
 }
+
+@media screen and (max-width:1000px){
+    footer{
+        display:none;
+    }
+    .posts, .full-post{
+        .main-content-wrapper{
+            width:90%;
+            max-width:600px;
+        }
+    }
+
+}
+
+@media screen and (max-width:600px){
+    .posts, .full-post{
+        .search{
+            font-size:14px;
+        }
+        .post{
+            .views-counter{
+                img{
+                    height:30px;
+                }
+            }
+            .content{
+                padding:7px 0;
+                .title{
+                    font-size:20px;
+                }
+                .short-desc, .full-desc{
+                    font-size:14px;
+                }
+                .meta{
+                    .board{
+                        font-size:14px;
+                    }
+                    .date{
+                        font-size:10px;
+                    }
+                }
+                .attachments{
+                    a{
+                        font-size:12px;
+                    }
+                }
+            }
+        }
+    }
+    .posts, .full-post{
+        .banner{
+            .content-wrapper{
+                .board-name{
+                    font-size:22px;
+                }
+                .board-desc{
+                    font-size:16px;
+                }
+            }
+        }
+    }
+
+    .filter{
+        margin-right:15px;
+        .name{
+            font-size:14px;
+        }
+        .options{
+            font-size:14px;
+            vertical-align:top;
+            .options-list{
+                li{
+                    font-size:12px;
+                }
+            }
+        }
+    }
+
+    header{
+        .header-wrapper{
+            nav{
+                width:180px;
+                .current-board.closed{
+                    background:url(../assets/arrow.png);
+                    background-repeat:no-repeat;
+                    background-size:15px 15px;
+                    background-position:150px;
+                }
+                .current-board.open{
+                    background:url(../assets/arrow180.png);
+                    background-repeat:no-repeat;
+                    background-size:15px 15px;
+                    background-position:150px;
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 400px){
+    .posts, .full-post{
+        .search{
+            font-size:12px;
+            padding:12px 45px;
+            background-position:13px 7px;
+        }
+        .post{
+            padding:20px 25px 20px 15px;
+            .views-counter{
+                img{
+                    height:25px;
+                }
+                margin-right:15px;
+            }
+            .content{
+                padding:4px 0;
+                .title{
+                    font-size:16px;
+                }
+                .short-desc, .full-desc{
+                    font-size:12px;
+                }
+                .meta{
+                    .board{
+                        font-size:12px;
+                    }
+                    .date{
+                        font-size:8px;
+                    }
+                }
+                .tags{
+                    .tag{
+                        font-size:8px;
+                        padding:2px 5px;
+                    }
+                }
+                .clip{
+                    font-size:10px;
+                }
+                .attachments{
+                    a{
+                        font-size:10px;
+                    }
+                }
+            }
+        }
+    }
+    .posts, .full-post{
+        .banner{
+            padding:30px 0;
+            .content-wrapper{
+                .board-name{
+                    font-size:20px;
+                }
+                .board-desc{
+                    font-size:14px;
+                }
+            }
+        }
+    }
+
+    .filter{
+        margin-right:15px;
+        .name{
+            font-size:12px;
+            margin-right:8px;
+        }
+        .options{
+            font-size:12px;
+            vertical-align:top;
+            .options-list{
+                min-width:80px;
+                li{
+                    font-size:12px;
+                }
+            }
+            .current-option{
+                padding-right:20px;
+            }
+        }
+    }
+
+    header{
+        .header-wrapper{
+            .logo{
+                margin-bottom:10px;
+                img{
+                    height:23px;
+                }
+            }
+            nav{
+                .current-board{
+                    padding: 5px 10px;
+                    font-size:12px;
+                }
+                .boards{
+                    .board{
+                        a{
+                            padding:5px 10px;
+                            font-size:12px;
+                        }
+                    }
+                    .delimiter{
+                        padding:15px;
+                    }
+                    .footer{
+                        .devs{
+                            font-size:12px;
+                            a{
+                                font-size:10px;
+                            }
+                        }
+                        .info{
+                            margin-top:15px;
+                            .logo{
+                                img{
+                                    height:18px;
+                                }                            
+                            }
+                            p{
+                                font-size:8px;
+                            }
+                        }
+                    }
+                }
+                
+            }
+        }
+    }
+}

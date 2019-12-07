@@ -41,5 +41,8 @@
     "react-dom": "^16.8.6",
     "react-router-dom": "^5.0.0",
     "react-router-hash-link": "^1.2.1"
+  },
+  "dependencies": {
+    "dateformat": "^3.0.3"
   }
 }

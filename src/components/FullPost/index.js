@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Footer from '../Footer';
 import Header from '../Header';
 import { Link } from 'react-router-dom';
+import Eyes from '../../../assets/eye1_3x.png';
 
 
 class FullPost extends Component{
@@ -43,6 +44,32 @@ class FullPost extends Component{
         this.setState({currentBoard: currentBoard});
     }
 
+    formatDate = (date) => {    
+        let seconds = Math.ceil((new Date().getTime() - date.getTime())/1000);
+        if(seconds < 60){
+            if(seconds < 1)
+                return 'now';
+            else if(seconds == 1)
+                return '1 second ago';
+            else
+                return `${seconds} seconds ago`;
+        }
+        let minutes = Math.ceil(seconds/60);
+        if(minutes < 60)
+            return minutes == 1 ? '1 minute ago' : `${minutes} minutes ago`;
+        let hours = Math.ceil(minutes/60);
+        if(hours < 24){
+            return hours == 1 ? '1 hour ago' : `${hours} hours ago`;
+        }
+        let days = Math.ceil(hours/24);
+        if(days < 365){
+            return days == 1 ? '1 day ago' : `${days} days ago`;
+        }
+        let years =  Math.ceil(days/365);
+        return years == 1 ? '1 year ago' : `${years} years ago`;
+    }
+
+
     updatePost = () => {
         this.setState({isLoading: true});
         db.collection('posts').doc(this.props.match.params.post).get()
@@ -55,7 +82,7 @@ class FullPost extends Component{
                             views: 0,
                             meta: {
                                 board: post.data().board,
-                                date: post.data().timestamp
+                                date: this.formatDate(post.data().timestamp.toDate())
                             },
                             tags: post.data().tags,
                             title: post.data().title,
@@ -84,6 +111,7 @@ class FullPost extends Component{
                             full_desc: '',
                             comments: 0
                         },
+                        isLoading: false,
                     }
                 );
             }
@@ -119,7 +147,7 @@ class FullPost extends Component{
                         : (
                             <div className='post'>
                                 <div className='views-counter'>
-                                    <img src='../../assets/eye1_3x.png'></img>
+                                    <img src={Eyes}></img>
                                     {/*<p></p>*/}
                                 </div>
                                 <div className='content'>
