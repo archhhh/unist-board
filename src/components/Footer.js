@@ -13,9 +13,9 @@ const Footer = () => {
             </div>    
             <div className='info'>
                 <div className='sitemap'>
-                    <Link className='logo' to='/'>
+                    <a className='logo' href='/'>
                         <img src={Logo}></img>
-                    </Link>
+                    </a>
                     <ul>
                         <li><Link to='/about'>About Us</Link></li>
                         <li><Link to='/about'>Contact</Link></li>

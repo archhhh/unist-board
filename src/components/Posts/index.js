@@ -43,12 +43,11 @@ class Posts extends Component{
             currentBoard: currentBoard,
             searchValue: '',
             filter: {isOpen:false, selectedOption: 'all-time'},
-            noMorePosts: false
         });
     }
     
     updatePosts = () => {
-        this.setState({isLoading: true, posts: []});
+        this.setState({isLoading: true, posts: [], noMorePosts: false});
         setTimeout(this.loadPosts, 200);
     }
 
@@ -121,10 +120,14 @@ class Posts extends Component{
         this.searchTimeout = setTimeout(this.updatePosts, 500);
     };
 
+    scrollToTop = () => {
+        window.scrollTo(0,0);
+    };
 
     render(){
         return (
             <div className='posts'>
+                <div className='scroll-to-top' onClick={this.scrollToTop}></div>
                 <Header boards={this.props.boards} currentBoard={this.state.currentBoard}></Header>
                 { this.props.match.params.board != undefined && this.props.match.params.board != 'all' 
                 && (

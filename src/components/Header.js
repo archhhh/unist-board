@@ -20,9 +20,9 @@ class Header extends Component{
             <header>
                 <div className='header-wrapper'>
                     <div className='left-header'>
-                        <Link className='logo' to='/'>
+                        <a className='logo' href='/'>
                             <img src={Logo}></img>
-                        </Link>
+                        </a>
                         <nav>
                             <p className={this.state.isNavClosed ? 'current-board open' : 'current-board closed'} onClick={this.toggleNav}><span className='board-icon'>{this.props.currentBoard.icon}</span><span className='board-name'>/{this.props.currentBoard.name}/</span></p>
                             <ul className={this.state.isNavClosed ? 'boards open' : 'boards closed'} onClick={this.toggleNav}> 
@@ -37,9 +37,9 @@ class Header extends Component{
                                         <a href='https://t.me/comm_unist'>https://t.me/comm_unist</a>
                                     </div>
                                     <div className='info'>
-                                        <Link className='logo' to='/'>
+                                        <a className='logo' href='/'>
                                             <img src={Logo}></img>
-                                        </Link>
+                                        </a>
                                         <ul>
                                         <li><Link to='/about'>About Us</Link></li>
                                         <li><Link to='/about'>Contact</Link></li>
