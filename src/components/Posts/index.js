@@ -39,7 +39,12 @@ class Posts extends Component{
             if(board.id == this.props.match.params.board)
                 currentBoard = board;
         });
-        this.setState({currentBoard: currentBoard, searchValue: '', filter: {isOpen:false, selectedOption: 'all-time'}});
+        this.setState({
+            currentBoard: currentBoard,
+            searchValue: '',
+            filter: {isOpen:false, selectedOption: 'all-time'},
+            noMorePosts: false
+        });
     }
     
     updatePosts = () => {
@@ -154,7 +159,7 @@ class Posts extends Component{
                             </Filter>
                         </div>
                         <div className='posts-list'>
-                            {!this.state.isLoading && this.state.posts.length == 0  &&<p className='no-posts'> :( </p>}
+                            {!this.state.isLoading && this.state.posts.length == 0  &&<p className='no-posts'>no posts for you</p>}
                             {this.state.posts.map( (post) => 
                                 (<Post post={post}></Post>)
                             )}
