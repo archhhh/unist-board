@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Header from './Header';
 import Posts from './Posts';
 import FullPost from './FullPost';
+import About from './About';
 
 class App extends Component{
     constructor(props){
@@ -45,8 +46,10 @@ class App extends Component{
                 <div className="App">
                     {this.state.isLoading && <div className='loading'></div>} 
                     <Switch>
+                        <Route exact path='/about' render={ (props) => <About {...props} boards={this.state.boards}/> } />
                         <Route exact path={['/', '/:board']} render={(props) => <Posts {...props} boards={this.state.boards}/>} />
                         <Route exact path='/:board/:post' render={(props) => <FullPost {...props} boards={this.state.boards}/>} />
+                        
                     </Switch>
                 </div>
             </BrowserRouter>

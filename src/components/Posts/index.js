@@ -9,10 +9,10 @@ class Posts extends Component{
     constructor(props){
         super(props);
         this.state = {
-            sort: {
-                isOpen: false,
-                selectedOption: 'date',  
-            },
+            //sort: {
+            //    isOpen: false,
+            //    selectedOption: 'date',  
+            //},
             filter: {
                 isOpen: false,
                 selectedOption: 'all-time',  
@@ -24,6 +24,8 @@ class Posts extends Component{
             },
             posts: [],
             isLoading: true,
+            searchValue: '',
+            noMorePosts: false,
         }
     }
     
@@ -37,45 +39,38 @@ class Posts extends Component{
             if(board.id == this.props.match.params.board)
                 currentBoard = board;
         });
-        this.setState({currentBoard: currentBoard});
+        this.setState({currentBoard: currentBoard, searchValue: '', filter: {isOpen:false, selectedOption: 'all-time'}});
     }
-
+    
     updatePosts = () => {
         this.setState({isLoading: true, posts: []});
-        let posts = [];
-        let postsRef;
+        setTimeout(this.loadPosts, 200);
+    }
+
+    loadPosts = () => {
+        this.setState({isLoading: true});
+        let params = {};
+        let indexPosts = functions.httpsCallable('indexPosts');
         if(this.props.match.params.board != undefined && this.props.match.params.board != 'all')
-            postsRef = db.collection('posts').where('board', '==', this.props.match.params.board).orderBy('timestamp', 'desc');
+            params.board = this.props.match.params.board;
         else
-            postsRef = db.collection('posts').orderBy('timestamp', 'desc');
-        postsRef.get()
-        .then(
-            (querySnapshot) => {
-                querySnapshot.forEach(
-                    (post) => {
-                        posts.push(
-                            {
-                                id: post.id,
-                                views: 0,
-                                meta: {
-                                    board: post.data().board,
-                                    date: this.formatDate(post.data().timestamp.toDate())
-                                },
-                                tags: post.data().tags,
-                                title: post.data().title,
-                                attachments: post.data().attachments,
-                                short_desc: post.data().short_desc,
-                                comments: 0
-                            }
-                        );
-                    }
-                );
+            params.board = 'all';
+        params.filter = this.state.filter.selectedOption;
+        params.text = this.state.searchValue;
+        params.startAt = this.state.posts.length;
+        console.log(params.startAt);
+        indexPosts(params)
+        .then( result => {
+            console.log(result.data);
+            if(result.data.length < 10)
                 this.setState({
-                    posts: posts,
-                    isLoading: false
+                    noMorePosts: true,
                 });
-            }
-        )
+            this.setState({
+                posts: [...this.state.posts, ...result.data],
+                isLoading: false
+            });
+        })
         .catch( 
             (error) => {
                 console.log(error);
@@ -89,10 +84,10 @@ class Posts extends Component{
     };
 
     componentDidUpdate = (prevProps) => {
-        if(prevProps.match.params.board != this.props.match.params.board || prevProps.boards != this.props.boards){
+        if(prevProps.match.params.board != this.props.match.params.board || prevProps.boards != this.props.boards)
             this.updateCurrentBoard();
+        if(prevProps.match.params.board != this.props.match.params.board)
             this.updatePosts();
-        }
     }
 
     toggleFilter = (filter) => {
@@ -104,30 +99,23 @@ class Posts extends Component{
         });
     }
 
-    formatDate = (date) => {    
-        let seconds = Math.ceil((new Date().getTime() - date.getTime())/1000);
-        if(seconds < 60){
-            if(seconds < 1)
-                return 'now';
-            else if(seconds == 1)
-                return '1 second ago';
-            else
-                return `${seconds} seconds ago`;
-        }
-        let minutes = Math.ceil(seconds/60);
-        if(minutes < 60)
-            return minutes == 1 ? '1 minute ago' : `${minutes} minutes ago`;
-        let hours = Math.ceil(minutes/60);
-        if(hours < 24){
-            return hours == 1 ? '1 hour ago' : `${hours} hours ago`;
-        }
-        let days = Math.ceil(hours/24);
-        if(days < 365){
-            return days == 1 ? '1 day ago' : `${days} days ago`;
-        }
-        let years =  Math.ceil(days/365);
-        return years == 1 ? '1 year ago' : `${years} years ago`;
+    selectOption = (filter, option) => {
+        this.setState({
+            [filter]: {
+                isOpen: false,
+                selectedOption: option
+            }
+        });
+        setTimeout(this.updatePosts, 100);
     }
+
+    onChangeSearch = (e) => {
+        if(this.searchTimeout)
+            clearTimeout(this.searchTimeout);
+        this.setState({searchValue: e.target.value});
+        this.searchTimeout = setTimeout(this.updatePosts, 500);
+    };
+
 
     render(){
         return (
@@ -144,9 +132,9 @@ class Posts extends Component{
                 )}
                 <div className='main-content-wrapper'>
                     <div className='left'>
-                        <input type='text' className='search' placeholder={`Search /${this.state.currentBoard.name}/`}></input>
+                        <input type='text' className='search' value={this.state.searchValue} onChange={this.onChangeSearch} placeholder={`Search /${this.state.currentBoard.name}/`}></input>
                         <div className='filters'>
-                            <Filter 
+                            { /*<Filter 
                                 name='Sort' 
                                 options={{'date': 'Date', 'comments': 'Comments', 'views': 'Views'}} 
                                 selected={this.state.sort.selectedOption}
@@ -154,25 +142,27 @@ class Posts extends Component{
                                 toggleFilter={(e) => this.toggleFilter('sort')}
                                 //selectOption={}
                             ></Filter>
+                            */}
                             <Filter 
                                 name='Filter' 
                                 options={{'today': 'Today', 'past-week': 'Past Week', 'past-month': 'Past Month', 'all-time': 'All Time'}} 
                                 selected={this.state.filter.selectedOption}
                                 isOpen={this.state.filter.isOpen}
                                 toggleFilter={(e) => this.toggleFilter('filter')}
-                                //selectOption={}
+                                selectOption={option => this.selectOption('filter', option)}
                             >
                             </Filter>
                         </div>
                         <div className='posts-list'>
+                            {!this.state.isLoading && this.state.posts.length == 0  &&<p className='no-posts'> :( </p>}
                             {this.state.posts.map( (post) => 
                                 (<Post post={post}></Post>)
                             )}
                             {this.state.isLoading && <div class="lds-ring"><div></div><div></div><div></div><div></div></div>}  
-                            { !this.state.isLoading && <div className='delimiter'></div>}
+                            { !this.state.isLoading && !this.state.noMorePosts && <div className='load-more' onClick={this.loadPosts}>more</div>}
                         </div>
                     </div>
-                <Footer></Footer>
+                    <Footer></Footer>
                 </div>
             </div>
         );

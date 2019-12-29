@@ -9,6 +9,21 @@
     min-height:100vh;
 }
 
+.no-posts{
+    text-align:center;
+    color:#555555;
+}
+
+.load-more{
+    text-align:center;
+    color:#555555;
+    margin-bottom:20px;
+    cursor:pointer;
+    &:hover{
+        text-decoration: underline;
+    }
+}
+
 .loading{
     width:100vw;
     height:100vh;
@@ -214,6 +229,7 @@ header{
         display:flex;
         .left{
             flex-grow: 1;
+            padding-bottom:40px;
         }
     }
     .banner{
@@ -326,6 +342,9 @@ header{
                     margin-right:7px;
                     text-decoration:none;
                     color:#7F7BFF;
+                }
+                span{
+                    color:#757575;
                 }
             }
             .short-desc{
@@ -526,6 +545,7 @@ footer{
     .post{
         display:flex;
         margin-bottom:30px;
+
         .views-counter{
             img{
                 height:40px;
@@ -592,6 +612,9 @@ footer{
                     text-decoration:none;
                     color:#7F7BFF;
                 }
+                span{
+                    color:#757575;
+                }
             }
             .full-desc{
                 color:#757575;
@@ -609,12 +632,38 @@ footer{
         background-color: #FFFFFF;
         border-radius:5px;
         border:1px solid #B3B3B3;
+        min-height:400px;
     }
     .delimiter{
         background:url(../assets/delimiter.png);
         background-repeat:no-repeat;
         background-position:center 5px;
         padding:20px 0;
+    }
+}
+
+.about{
+    .main-content-wrapper{
+        width:80%;
+        max-width:990px;
+        margin: 0 auto;
+        margin-top:35px;
+        display:flex;
+        .left{
+            flex-grow: 1;
+            background-color: #FFFFFF;
+            padding: 30px;
+            .about-header{
+                font-size:24px;
+                margin-bottom:10px;
+            }
+            .about-text{
+                margin-bottom:20px;
+                padding-left:10px;
+            }
+            border:1px solid #B3B3B3;
+            border-radius:5px;
+        }
     }
 }
 

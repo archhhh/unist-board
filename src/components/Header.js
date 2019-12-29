@@ -27,7 +27,7 @@ class Header extends Component{
                             <p className={this.state.isNavClosed ? 'current-board open' : 'current-board closed'} onClick={this.toggleNav}><span className='board-icon'>{this.props.currentBoard.icon}</span><span className='board-name'>/{this.props.currentBoard.name}/</span></p>
                             <ul className={this.state.isNavClosed ? 'boards open' : 'boards closed'} onClick={this.toggleNav}> 
                                 <li className='board all'><Link to='/all'><span className='board-icon'>🌌</span><span className='board-name'>/all/</span></Link></li>
-                                {this.props.boards.map( (board) => (<li className='board'><Link to={`/${board.id}`}><span className='board-icon'>{board.icon}</span><span className='board-name'>{board.name}</span></Link></li>))}
+                                {this.props.boards.map( (board) => (<li className='board'><Link to={`/${board.id}`}><span className='board-icon'>{board.icon}</span><span className='board-name'>/{board.name}/</span></Link></li>))}
                                 <li className='delimiter'></li>
                                 <li className='footer'>
                                     <div className='devs'>
@@ -41,9 +41,9 @@ class Header extends Component{
                                             <img src={Logo}></img>
                                         </Link>
                                         <ul>
-                                            <li><a href='#'>About Us</a></li>
-                                            <li><a href='#'>Contact</a></li>
-                                            <li><a href='#'>Contribute</a></li>
+                                        <li><Link to='/about'>About Us</Link></li>
+                                        <li><Link to='/about'>Contact</Link></li>
+                                        <li><Link to='/about'>Contribute</Link></li>
                                         </ul>
                                         <p>Available Under MIT License. 2019</p>
                                     </div>

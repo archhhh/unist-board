@@ -45,7 +45,7 @@ class FullPost extends Component{
     }
 
     formatDate = (date) => {    
-        let seconds = Math.ceil((new Date().getTime() - date.getTime())/1000);
+        let seconds = Math.ceil((new Date() - date)/1000);
         if(seconds < 60){
             if(seconds < 1)
                 return 'now';
@@ -62,8 +62,12 @@ class FullPost extends Component{
             return hours == 1 ? '1 hour ago' : `${hours} hours ago`;
         }
         let days = Math.ceil(hours/24);
-        if(days < 365){
+        if(days < 30){
             return days == 1 ? '1 day ago' : `${days} days ago`;
+        }
+        let months = Math.ceil(days/30);
+        if(months < 12){
+            return months == 1 ? '1 month ago': `${months} months ago`; 
         }
         let years =  Math.ceil(days/365);
         return years == 1 ? '1 year ago' : `${years} years ago`;
@@ -166,9 +170,13 @@ class FullPost extends Component{
                                     </h1>
                                     <div className='attachments'>
                                         { this.state.post.attachments.length > 0 && <span className='clip'>📎 </span>}
-                                        { this.state.post.attachments.map((attachment) => (<a href={attachment.url}>{attachment.name}</a>))}
+                                        { this.state.post.attachments.map((attachment, index) => {
+                                            return index == this.state.post.attachments.length - 1 
+                                            ? (<span><a href={attachment.url}>{attachment.name}</a></span>)
+                                            : (<span><a href={attachment.url}>{attachment.name}</a>| </span>)  
+                                        })}
                                     </div>
-                                    <p className='full-desc'> { this.state.post.full_desc }</p>
+                                    <p className='full-desc' dangerouslySetInnerHTML={{ __html: this.state.post.full_desc }}></p>
                                     {/*<p className='comments'>comments 504</p>*/}
                                 </div>
                             </div>

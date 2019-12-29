@@ -26,9 +26,13 @@ const Post = (props) => {
                 </Link>
                 <div className='attachments'>
                     { props.post.attachments.length > 0 && <span className='clip'>📎 </span>}
-                    {props.post.attachments.map((attachment) => (<a href={attachment.url}>{attachment.name}</a>))}
+                    { props.post.attachments.map((attachment, index) => {
+                            return index == props.post.attachments.length - 1 
+                            ? (<span><a href={attachment.url}>{attachment.name}</a></span>)
+                            : (<span><a href={attachment.url}>{attachment.name}</a>| </span>)  
+                    })}
                 </div>
-                <p className='short-desc'>{props.post.short_desc}</p>
+                <p className='short-desc' dangerouslySetInnerHTML={{ __html: props.post.short_desc }}></p>
                 {/*<a href='#' className='comments'>comments 504</a>*/}
             </div>
         </div>

@@ -17,9 +17,9 @@ const Footer = () => {
                         <img src={Logo}></img>
                     </Link>
                     <ul>
-                        <li><a href='#'>About Us</a></li>
-                        <li><a href='#'>Contact</a></li>
-                        <li><a href='#'>Contribute</a></li>
+                        <li><Link to='/about'>About Us</Link></li>
+                        <li><Link to='/about'>Contact</Link></li>
+                        <li><Link to='/about'>Contribute</Link></li>
                     </ul>
                 </div>
                 <p>Available Under MIT License. 2019</p>
