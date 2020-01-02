@@ -29,6 +29,18 @@ class Posts extends Component{
         }
     }
     
+    componentDidMount = () => {
+        this.updateCurrentBoard();
+        this.updatePosts();
+    };
+
+    componentDidUpdate = (prevProps) => {
+        if(prevProps.match.params.board != this.props.match.params.board || prevProps.boards != this.props.boards)
+            this.updateCurrentBoard();
+        if(prevProps.match.params.board != this.props.match.params.board)
+            this.updatePosts();
+    }
+
     updateCurrentBoard = () => {
         let currentBoard = {
             name: 'all',
@@ -48,6 +60,7 @@ class Posts extends Component{
     
     updatePosts = () => {
         this.setState({isLoading: true, posts: [], noMorePosts: false});
+        this.scrollToTop();
         setTimeout(this.loadPosts, 200);
     }
 
@@ -62,10 +75,8 @@ class Posts extends Component{
         params.filter = this.state.filter.selectedOption;
         params.text = this.state.searchValue;
         params.startAt = this.state.posts.length;
-        console.log(params.startAt);
         indexPosts(params)
         .then( result => {
-            console.log(result.data);
             if(result.data.length < 10)
                 this.setState({
                     noMorePosts: true,
@@ -80,18 +91,6 @@ class Posts extends Component{
                 console.log(error);
             }
         );
-    }
-
-    componentDidMount = () => {
-        this.updateCurrentBoard();
-        this.updatePosts();
-    };
-
-    componentDidUpdate = (prevProps) => {
-        if(prevProps.match.params.board != this.props.match.params.board || prevProps.boards != this.props.boards)
-            this.updateCurrentBoard();
-        if(prevProps.match.params.board != this.props.match.params.board)
-            this.updatePosts();
     }
 
     toggleFilter = (filter) => {
@@ -128,7 +127,12 @@ class Posts extends Component{
         return (
             <div className='posts'>
                 <div className='scroll-to-top' onClick={this.scrollToTop}></div>
-                <Header boards={this.props.boards} currentBoard={this.state.currentBoard}></Header>
+                <Header 
+                    isNavClosed={this.props.isNavClosed}
+                    toggleNav={this.props.toggleNav}
+                    boards={this.props.boards}
+                    currentBoard={this.state.currentBoard}
+                ></Header>
                 { this.props.match.params.board != undefined && this.props.match.params.board != 'all' 
                 && (
                     <div className='banner'>
@@ -140,7 +144,13 @@ class Posts extends Component{
                 )}
                 <div className='main-content-wrapper'>
                     <div className='left'>
-                        <input type='text' className='search' value={this.state.searchValue} onChange={this.onChangeSearch} placeholder={`Search /${this.state.currentBoard.name}/`}></input>
+                        <input 
+                            type='text' 
+                            className='search' 
+                            value={this.state.searchValue} 
+                            onChange={this.onChangeSearch} 
+                            placeholder={`Search /${this.state.currentBoard.name}/`}
+                        ></input>
                         <div className='filters'>
                             { /*<Filter 
                                 name='Sort' 
@@ -153,7 +163,12 @@ class Posts extends Component{
                             */}
                             <Filter 
                                 name='Filter' 
-                                options={{'today': 'Today', 'past-week': 'Past Week', 'past-month': 'Past Month', 'all-time': 'All Time'}} 
+                                options={
+                                    {'today': 'Today', 
+                                     'past-week': 'Past Week', 
+                                     'past-month': 'Past Month', 
+                                     'all-time': 'All Time'}
+                                } 
                                 selected={this.state.filter.selectedOption}
                                 isOpen={this.state.filter.isOpen}
                                 toggleFilter={(e) => this.toggleFilter('filter')}
@@ -162,12 +177,20 @@ class Posts extends Component{
                             </Filter>
                         </div>
                         <div className='posts-list'>
-                            {!this.state.isLoading && this.state.posts.length == 0  &&<p className='no-posts'>no posts for you</p>}
+                            {
+                               !this.state.isLoading 
+                               && this.state.posts.length == 0  
+                               && <p className='no-posts'>no posts for you</p>
+                            }
                             {this.state.posts.map( (post) => 
                                 (<Post post={post}></Post>)
                             )}
                             {this.state.isLoading && <div class="lds-ring"><div></div><div></div><div></div><div></div></div>}  
-                            { !this.state.isLoading && !this.state.noMorePosts && <div className='load-more' onClick={this.loadPosts}>more</div>}
+                            { 
+                               !this.state.isLoading 
+                               && !this.state.noMorePosts
+                               && <div className='load-more' onClick={this.loadPosts}>more</div>
+                            }
                         </div>
                     </div>
                     <Footer></Footer>

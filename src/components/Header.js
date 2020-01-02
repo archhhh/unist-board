@@ -24,17 +24,46 @@ class Header extends Component{
                             <img src={Logo}></img>
                         </a>
                         <nav>
-                            <p className={this.state.isNavClosed ? 'current-board open' : 'current-board closed'} onClick={this.toggleNav}><span className='board-icon'>{this.props.currentBoard.icon}</span><span className='board-name'>/{this.props.currentBoard.name}/</span></p>
-                            <ul className={this.state.isNavClosed ? 'boards open' : 'boards closed'} onClick={this.toggleNav}> 
-                                <li className='board all'><Link to='/all'><span className='board-icon'>🌌</span><span className='board-name'>/all/</span></Link></li>
-                                {this.props.boards.map( (board) => (<li className='board'><Link to={`/${board.id}`}><span className='board-icon'>{board.icon}</span><span className='board-name'>/{board.name}/</span></Link></li>))}
+                            <p 
+                                className={this.state.isNavClosed ? 'current-board open' : 'current-board closed'} 
+                                onClick={this.toggleNav}
+                            >
+                                <span className='board-icon'>
+                                    {this.props.currentBoard.icon}
+                                </span>
+                                <span className='board-name'>
+                                    /{this.props.currentBoard.name}/
+                                </span>
+                            </p>
+                            <ul 
+                                className={this.state.isNavClosed ? 'boards open' : 'boards closed'} 
+                                onClick={this.toggleNav}
+                            > 
+                                <li className='board all'>
+                                    <Link to='/all'>
+                                        <span className='board-icon'>🌌</span>
+                                        <span className='board-name'>/all/</span>
+                                    </Link>
+                                </li>
+                                {   
+                                    this.props.boards.map( board => 
+                                        (
+                                            <li className='board'>
+                                                <Link to={`/${board.id}`}>
+                                                    <span className='board-icon'>{board.icon}</span>
+                                                    <span className='board-name'>/{board.name}/</span>
+                                                </Link>
+                                            </li>
+                                        )
+                                    )
+                                }
                                 <li className='delimiter'></li>
                                 <li className='footer'>
                                     <div className='devs'>
                                         <p>For developers</p>
-                                        <a href='https://github.com'>https://github.com</a>
+                                        <a href='https://github.com/archhhh/unist-board'>github</a>
                                         <p>For editors</p>
-                                        <a href='https://t.me/comm_unist'>https://t.me/comm_unist</a>
+                                        <a href='https://t.me/comm_unist'>t.me</a>
                                     </div>
                                     <div className='info'>
                                         <a className='logo' href='/'>

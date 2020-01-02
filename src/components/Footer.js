@@ -7,9 +7,9 @@ const Footer = () => {
         <footer>
             <div className='devs'>
                 <p>For developers</p>
-                <a href='https://github.com/'>https://github.com/</a>
+                <a href='https://github.com/archhhh/unist-board'>github</a>
                 <p>For editors</p>
-                <a href='https://t.me/comm_unist'>https://t.me/comm_unist</a>
+                <a href='https://t.me/comm_unist'>t.me</a>
             </div>    
             <div className='info'>
                 <div className='sitemap'>
