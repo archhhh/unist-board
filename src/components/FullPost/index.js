@@ -24,37 +24,16 @@ class FullPost extends Component{
                 comments: 0
             },
             isLoading: false,
-            currentBoard: {
-                name: 'all',
-                description: '',
-                icon: '',
-            },
         };
     }
 
     componentDidMount = () => {
-        this.updateCurrentBoard();
         this.updatePost();
     }
 
     componentDidUpdate = (prevProps) => {
-        if(prevProps.match.params.board != this.props.match.params.board || prevProps.boards != this.props.boards)
-            this.updateCurrentBoard();
         if(prevProps.match.params.post != this.props.match.params.post)
             this.updatePost();
-    }
-
-    updateCurrentBoard = () => {
-        let currentBoard = {
-            name: 'all',
-            description: '',
-            icon: '',
-        };
-        this.props.boards.forEach((board) => {
-            if(board.id == this.props.match.params.board)
-                currentBoard = board;
-        });
-        this.setState({currentBoard: currentBoard});
     }
 
     updatePost = () => {
@@ -93,13 +72,6 @@ class FullPost extends Component{
     render(){
         return (
             <div className='full-post'>
-                <Header boards={this.props.boards} currentBoard={this.state.currentBoard}></Header>
-                <div className='banner'>
-                        <div className='content-wrapper'>
-                            <h1 className='board-name'>{this.state.currentBoard.icon} /{this.state.currentBoard.name}/</h1>
-                            <h2 className='board-desc'>{this.state.currentBoard.description}</h2>
-                        </div>
-                    </div>
                 <div className='main-content-wrapper'>
                     <div className='left'>
                         {this.state.isLoading 

@@ -235,7 +235,25 @@ header{
     border-bottom:1px solid #B3B3B3;
     background-color:#FFFFFF;
 }
-
+.banner{
+    border-bottom: 1px solid #B3B3B3;
+    padding:37px 0;
+    background-color: #FFFFFF;
+    .content-wrapper{
+        width:85%;
+        margin:0 auto;
+        max-width:1200px;
+        .board-name{
+            font-size:28px;
+            font-weight: normal;
+        }
+        .board-desc{
+            margin-top:10px;
+            font-size:20px;
+            font-weight: normal;
+        }
+    }
+}
 .posts{
     .main-content-wrapper{
         width:80%;
@@ -248,25 +266,7 @@ header{
             padding-bottom:40px;
         }
     }
-    .banner{
-        border-bottom: 1px solid #B3B3B3;
-        padding:37px 0;
-        background-color: #FFFFFF;
-        .content-wrapper{
-            width:85%;
-            margin:0 auto;
-            max-width:1200px;
-            .board-name{
-                font-size:28px;
-                font-weight: normal;
-            }
-            .board-desc{
-                margin-top:10px;
-                font-size:20px;
-                font-weight: normal;
-            }
-        }
-    }
+
     .search{
         width:100%;
         padding:15px 45px;
@@ -539,25 +539,7 @@ footer{
             flex-grow: 1;
         }
     }
-    .banner{
-        border-bottom: 1px solid #B3B3B3;
-        padding:37px 0;
-        background-color: #FFFFFF;
-        .content-wrapper{
-            width:85%;
-            margin:0 auto;
-            max-width:1200px;
-            .board-name{
-                font-size:28px;
-                font-weight: normal;
-            }
-            .board-desc{
-                margin-top:10px;
-                font-size:20px;
-                font-weight: normal;
-            }
-        }
-    }
+
     .post{
         display:flex;
         margin-bottom:30px;
@@ -697,6 +679,16 @@ footer{
 }
 
 @media screen and (max-width:600px){
+    .banner{
+        .content-wrapper{
+            .board-name{
+                font-size:22px;
+            }
+            .board-desc{
+                font-size:16px;
+            }
+        }
+    }
     .posts, .full-post{
         .search{
             font-size:14px;
@@ -727,18 +719,6 @@ footer{
                     a{
                         font-size:12px;
                     }
-                }
-            }
-        }
-    }
-    .posts, .full-post{
-        .banner{
-            .content-wrapper{
-                .board-name{
-                    font-size:22px;
-                }
-                .board-desc{
-                    font-size:16px;
                 }
             }
         }
@@ -782,6 +762,17 @@ footer{
 }
 
 @media screen and (max-width: 400px){
+    .banner{
+        padding:30px 0;
+        .content-wrapper{
+            .board-name{
+                font-size:20px;
+            }
+            .board-desc{
+                font-size:14px;
+            }
+        }
+    }
     .posts, .full-post{
         .search{
             font-size:12px;
@@ -825,19 +816,6 @@ footer{
                     a{
                         font-size:10px;
                     }
-                }
-            }
-        }
-    }
-    .posts, .full-post{
-        .banner{
-            padding:30px 0;
-            .content-wrapper{
-                .board-name{
-                    font-size:20px;
-                }
-                .board-desc{
-                    font-size:14px;
                 }
             }
         }

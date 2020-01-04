@@ -17,11 +17,6 @@ class Posts extends Component{
                 isOpen: false,
                 selectedOption: 'all-time',  
             },
-            currentBoard: {
-                name: 'all',
-                description: '',
-                icon: '',
-            },
             posts: [],
             isLoading: true,
             searchValue: '',
@@ -30,34 +25,16 @@ class Posts extends Component{
     }
     
     componentDidMount = () => {
-        this.updateCurrentBoard();
         this.updatePosts();
     };
 
     componentDidUpdate = (prevProps) => {
-        if(prevProps.match.params.board != this.props.match.params.board || prevProps.boards != this.props.boards)
-            this.updateCurrentBoard();
-        if(prevProps.match.params.board != this.props.match.params.board)
+        if(prevProps.match.params.board != this.props.match.params.board){
+            this.setState({searchValue: '', filter: { isOpen: false, selectedOption: 'all-time'}});
             this.updatePosts();
+        }
     }
 
-    updateCurrentBoard = () => {
-        let currentBoard = {
-            name: 'all',
-            description: '',
-            icon: '🌌',
-        };
-        this.props.boards.forEach((board) => {
-            if(board.id == this.props.match.params.board)
-                currentBoard = board;
-        });
-        this.setState({
-            currentBoard: currentBoard,
-            searchValue: '',
-            filter: {isOpen:false, selectedOption: 'all-time'},
-        });
-    }
-    
     updatePosts = () => {
         this.setState({isLoading: true, posts: [], noMorePosts: false});
         this.scrollToTop();
@@ -127,21 +104,6 @@ class Posts extends Component{
         return (
             <div className='posts'>
                 <div className='scroll-to-top' onClick={this.scrollToTop}></div>
-                <Header 
-                    isNavClosed={this.props.isNavClosed}
-                    toggleNav={this.props.toggleNav}
-                    boards={this.props.boards}
-                    currentBoard={this.state.currentBoard}
-                ></Header>
-                { this.props.match.params.board != undefined && this.props.match.params.board != 'all' 
-                && (
-                    <div className='banner'>
-                        <div className='content-wrapper'>
-                            <h1 className='board-name'>{this.state.currentBoard.icon} /{this.state.currentBoard.name}/</h1>
-                            <h2 className='board-desc'>{this.state.currentBoard.description}</h2>
-                        </div>
-                    </div>
-                )}
                 <div className='main-content-wrapper'>
                     <div className='left'>
                         <input 
@@ -149,7 +111,7 @@ class Posts extends Component{
                             className='search' 
                             value={this.state.searchValue} 
                             onChange={this.onChangeSearch} 
-                            placeholder={`Search /${this.state.currentBoard.name}/`}
+                            placeholder={this.props.match.params.board ? `Search /${this.props.match.params.board}/` : `Search /all/`}
                         ></input>
                         <div className='filters'>
                             { /*<Filter 

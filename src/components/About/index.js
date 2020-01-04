@@ -1,12 +1,10 @@
 import React from 'react';
 import Footer from '../Footer';
-import Header from '../Header';
 
 
-const About = (props) => {
+const About = () => {
     return (
         <div className='about'>
-            <Header boards={props.boards} currentBoard={{name: 'all', description: '', icon: '🌌'}}></Header>
             <div className='main-content-wrapper'>
                     <div className='left'>
                         <h2 id='about' className='about-header'>About us</h2>
