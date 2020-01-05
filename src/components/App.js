@@ -10,23 +10,105 @@ class App extends Component{
         super(props);
         this.state = {
             isNavClosed: true,
+            sort: {
+                isOpen: false,
+                selectedOption: 'date',  
+            },
+            filter: {
+                isOpen: false,
+                selectedOption: 'all-time',  
+            },
         };
     }
 
-    toggleNav = (e) => {
+    closeDropdown = (e) => {
         let currentNode = e.target;
-        while(currentNode != null && currentNode.tagName != 'NAV')
+        while(currentNode != null && currentNode.tagName != 'NAV' && currentNode.className != 'options')
             currentNode = currentNode.parentElement;
-        if(currentNode)
-            this.setState({isNavClosed: !this.state.isNavClosed});
-        else
-            this.setState({isNavClosed: true});
+        if(!currentNode)
+            this.setState(
+                {
+                    isNavClosed: true,
+                    sort: 
+                        {
+                            ...this.state.sort,
+                            isOpen: false
+                        }, 
+                    filter: 
+                        {
+                            ...this.state.filter,
+                            isOpen:false
+                        }
+                }
+            );
+        else if(currentNode.tagName == 'NAV'){
+            this.setState(
+                {
+                    sort: 
+                        {
+                            ...this.state.sort,
+                            isOpen: false
+                        }, 
+                    filter: 
+                        {
+                            ...this.state.filter,
+                            isOpen:false
+                        }
+                }
+            );
+        }else{
+            this.setState(
+                {
+                    isNavClosed: true,  
+                }
+            );
+        }
+    };
+
+    toggleNav = () => {
+        this.setState(
+            {
+                isNavClosed: !this.state.isNavClosed
+            }
+        );
+    }
+
+    toggleFilter = (filter) => {
+        this.setState(
+            {
+                sort: 
+                {
+                    ...this.state.sort,
+                    isOpen: false
+                }, 
+                filter: 
+                {
+                    ...this.state.filter,
+                    isOpen:false
+                },
+                [filter]: {
+                    ...this.state[filter],
+                    isOpen: !this.state[filter].isOpen
+                },
+            }
+        );
+    }
+
+    selectOptionFilter = (filter, option) => {
+        this.setState(
+            {
+                [filter]: {
+                    selectedOption: option,
+                    isOpen: false
+                },
+            }
+        );
     }
 
     render(){
         return (
             <BrowserRouter>
-                <div className="App" onClick={(e) => this.toggleNav(e)}>
+                <div className="App" onClick={(e) => this.closeDropdown(e)}>
                     <Route render={ (props) => <Header {...props} isNavClosed={this.state.isNavClosed} toggleNav={this.toggleNav}/> } />
                     <Switch>
                         <Route exact path='/about' render={ (props) => 
@@ -36,7 +118,11 @@ class App extends Component{
                         } />
                         <Route exact path={['/', '/:board']} render={(props) => 
                             <Posts 
-                                {...props} 
+                                {...props}
+                                sort={this.state.sort}
+                                filter={this.state.filter}
+                                toggleFilter={this.toggleFilter}
+                                selectOptionFilter={this.selectOptionFilter}
                             />
                         }/>
                         <Route exact path='/:board/:post' render={(props) => 

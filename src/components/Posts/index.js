@@ -9,14 +9,6 @@ class Posts extends Component{
     constructor(props){
         super(props);
         this.state = {
-            //sort: {
-            //    isOpen: false,
-            //    selectedOption: 'date',  
-            //},
-            filter: {
-                isOpen: false,
-                selectedOption: 'all-time',  
-            },
             posts: [],
             isLoading: true,
             searchValue: '',
@@ -30,9 +22,11 @@ class Posts extends Component{
 
     componentDidUpdate = (prevProps) => {
         if(prevProps.match.params.board != this.props.match.params.board){
-            this.setState({searchValue: '', filter: { isOpen: false, selectedOption: 'all-time'}});
+            this.setState({searchValue: ''});
+            this.props.selectOptionFilter('filter', 'all-time');
             this.updatePosts();
-        }
+        }else if(prevProps.filter.selectedOption != this.props.filter.selectedOption || prevProps.sort.selectedOption != this.props.sort.selectedOption)
+            this.updatePosts();
     }
 
     updatePosts = () => {
@@ -49,7 +43,7 @@ class Posts extends Component{
             params.board = this.props.match.params.board;
         else
             params.board = 'all';
-        params.filter = this.state.filter.selectedOption;
+        params.filter = this.props.filter.selectedOption;
         params.text = this.state.searchValue;
         params.startAt = this.state.posts.length;
         indexPosts(params)
@@ -68,25 +62,6 @@ class Posts extends Component{
                 console.log(error);
             }
         );
-    }
-
-    toggleFilter = (filter) => {
-        this.setState({
-            [filter]: {
-                ...this.state[filter],
-                isOpen: !this.state[filter].isOpen, 
-            }
-        });
-    }
-
-    selectOption = (filter, option) => {
-        this.setState({
-            [filter]: {
-                isOpen: false,
-                selectedOption: option
-            }
-        });
-        setTimeout(this.updatePosts, 100);
     }
 
     onChangeSearch = (e) => {
@@ -131,10 +106,10 @@ class Posts extends Component{
                                      'past-month': 'Past Month', 
                                      'all-time': 'All Time'}
                                 } 
-                                selected={this.state.filter.selectedOption}
-                                isOpen={this.state.filter.isOpen}
-                                toggleFilter={(e) => this.toggleFilter('filter')}
-                                selectOption={option => this.selectOption('filter', option)}
+                                selected={this.props.filter.selectedOption}
+                                isOpen={this.props.filter.isOpen}
+                                toggleFilter={() => this.props.toggleFilter('filter')}
+                                selectOption={option => this.props.selectOptionFilter('filter', option)}
                             >
                             </Filter>
                         </div>

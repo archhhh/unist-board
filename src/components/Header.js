@@ -84,6 +84,7 @@ class Header extends Component{
                             <nav>
                                 <p 
                                     className={!this.props.isNavClosed ? 'current-board open' : 'current-board closed'} 
+                                    onClick={this.props.toggleNav}
                                 >
                                     <span className='board-icon'>
                                         {this.state.currentBoard.icon}
@@ -94,6 +95,7 @@ class Header extends Component{
                                 </p>
                                 <ul 
                                     className={!this.props.isNavClosed ? 'boards open' : 'boards closed'} 
+                                    onClick={this.props.toggleNav}
                                 > 
                                     <li className='board all'>
                                         <Link to='/all'>
