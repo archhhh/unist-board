@@ -72,7 +72,10 @@ class Posts extends Component{
     };
 
     scrollToTop = () => {
-        window.scrollTo(0,0);
+        if(window.scrollY > 0)  {
+            window.scrollTo(0, window.scrollY - 150);
+            window.requestAnimationFrame(this.scrollToTop);
+        }
     };
 
     render(){
