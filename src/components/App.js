@@ -4,6 +4,7 @@ import Posts from './Posts';
 import FullPost from './FullPost';
 import About from './About';
 import Header from './Header';
+import Footer from './Footer';
 
 class App extends Component{
     constructor(props){
@@ -110,27 +111,32 @@ class App extends Component{
             <BrowserRouter>
                 <div className="App" onClick={(e) => this.closeDropdown(e)}>
                     <Route render={ (props) => <Header {...props} isNavClosed={this.state.isNavClosed} toggleNav={this.toggleNav}/> } />
-                    <Switch>
-                        <Route exact path='/about' render={ (props) => 
-                            <About 
-                                {...props} 
-                            /> 
-                        } />
-                        <Route exact path={['/', '/:board']} render={(props) => 
-                            <Posts 
-                                {...props}
-                                sort={this.state.sort}
-                                filter={this.state.filter}
-                                toggleFilter={this.toggleFilter}
-                                selectOptionFilter={this.selectOptionFilter}
-                            />
-                        }/>
-                        <Route exact path='/:board/:post' render={(props) => 
-                            <FullPost 
-                                {...props} 
-                            />
-                        }/>
-                    </Switch>
+                    <div className="main">
+                        <div className="left">
+                            <Switch>
+                                <Route exact path='/about' render={ (props) => 
+                                    <About 
+                                        {...props} 
+                                    /> 
+                                } />
+                                <Route exact path={['/', '/:board']} render={(props) => 
+                                    <Posts 
+                                        {...props}
+                                        sort={this.state.sort}
+                                        filter={this.state.filter}
+                                        toggleFilter={this.toggleFilter}
+                                        selectOptionFilter={this.selectOptionFilter}
+                                    />
+                                }/>
+                                <Route exact path='/:board/:post' render={(props) => 
+                                    <FullPost 
+                                        {...props} 
+                                    />
+                                }/>
+                            </Switch>
+                        </div>
+                        <Footer />
+                    </div>
                 </div>
             </BrowserRouter>
         );

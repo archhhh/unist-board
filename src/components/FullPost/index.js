@@ -72,48 +72,43 @@ class FullPost extends Component{
     render(){
         return (
             <div className='full-post'>
-                <div className='main-content-wrapper'>
-                    <div className='left'>
-                        {this.state.isLoading 
-                        ? <div class="lds-ring"><div></div><div></div><div></div><div></div></div> 
-                        : (
-                            <div className='post'>
-                                <div className='views-counter'>
-                                    <img src={Eyes}></img>
-                                    {/*<p></p>*/}
-                                </div>
-                                <div className='content'>
-                                    <div className='meta'>
-                                        <Link to={`/${this.state.post.meta.board}`} className='board'>/{this.state.post.meta.board}/</Link>
-                                        <span className='delimiter'></span>
-                                        <span className='date'>{this.state.post.meta.date.toString()}</span>
-                                    </div>
-                                    <div className='tags'>
-                                        {this.state.post.tags.map((tag) => (<span className='tag'>{tag}</span>))}
-                                    </div>
-                                    <div className='reactions'>                    
-                                    </div>
-                                    <h1 className='title'>
-                                        {this.state.post.title}
-                                    </h1>
-                                    <div className='attachments'>
-                                        { this.state.post.attachments.length > 0 && <span className='clip'>📎 </span>}
-                                        { this.state.post.attachments.map((attachment, index) => {
-                                            return index == this.state.post.attachments.length - 1 
-                                            ? (<span><a href={attachment.url}>{attachment.name}</a></span>)
-                                            : (<span><a href={attachment.url}>{attachment.name}</a>| </span>)  
-                                        })}
-                                    </div>
-                                    <p className='full-desc' dangerouslySetInnerHTML={{ __html: this.state.post.full_desc }}></p>
-                                    {/*<p className='comments'>comments 504</p>*/}
-                                </div>
+                    {this.state.isLoading 
+                    ? <div class="lds-ring"><div></div><div></div><div></div><div></div></div> 
+                    : (
+                        <div className='post'>
+                            <div className='views-counter'>
+                                <img src={Eyes}></img>
+                                {/*<p></p>*/}
                             </div>
-                            )
-                        } 
-                        { !this.state.isLoading && <div className='delimiter'></div>}
-                    </div>
-                <Footer></Footer>
-                </div>
+                            <div className='content'>
+                                <div className='meta'>
+                                    <Link to={`/${this.state.post.meta.board}`} className='board'>/{this.state.post.meta.board}/</Link>
+                                    <span className='delimiter'></span>
+                                    <span className='date'>{this.state.post.meta.date.toString()}</span>
+                                </div>
+                                <div className='tags'>
+                                    {this.state.post.tags.map((tag) => (<span className='tag'>{tag}</span>))}
+                                </div>
+                                <div className='reactions'>                    
+                                </div>
+                                <h1 className='title'>
+                                    {this.state.post.title}
+                                </h1>
+                                <div className='attachments'>
+                                    { this.state.post.attachments.length > 0 && <span className='clip'>📎 </span>}
+                                    { this.state.post.attachments.map((attachment, index) => {
+                                        return index == this.state.post.attachments.length - 1 
+                                        ? (<span><a href={attachment.url}>{attachment.name}</a></span>)
+                                        : (<span><a href={attachment.url}>{attachment.name}</a>| </span>)  
+                                    })}
+                                </div>
+                                <p className='full-desc' dangerouslySetInnerHTML={{ __html: this.state.post.full_desc }}></p>
+                                {/*<p className='comments'>comments 504</p>*/}
+                            </div>
+                        </div>
+                    )
+                    } 
+                    { !this.state.isLoading && <div className='delimiter'></div>}
             </div>
         );
     }
