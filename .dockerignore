@@ -1,0 +1,11 @@
+assets
+functions
+node_modules
+src
+styles
+.babelrc
+LICENSE
+README.md
+webpack.config.js
+Dockerfile
+.gitignore
